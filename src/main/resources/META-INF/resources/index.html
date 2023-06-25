@@ -176,7 +176,7 @@
             function fetchData() {
 
                 $.ajax({
-                    url: 'https://b25c-77-94-216-241.ngrok-free.app/url',
+                    url: 'http://localhost:8081/url',
                     type: 'GET',
                     contentType: 'application/json',
                     success: function (response) {
@@ -195,7 +195,7 @@
             }
 
             $.ajax({
-                url: 'https://b25c-77-94-216-241.ngrok-free.app/url',
+                url: 'http://localhost:8081/url',
                 type: 'POST',
                 data: JSON.stringify(requestData),
                 contentType: 'application/json',
