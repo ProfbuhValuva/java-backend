@@ -1,0 +1,109 @@
+---
+openapi: 3.0.3
+info:
+  title: java-backend API
+  version: 1.0-SNAPSHOT
+paths:
+  /url:
+    get:
+      tags:
+        - You Tube Resource
+      responses:
+        "200":
+          description: OK
+    post:
+      tags:
+        - You Tube Resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommunicationModel'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunicationModel'
+  /url/{imageName}:
+    get:
+      tags:
+        - You Tube Resource
+      parameters:
+        - name: imageName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    CommunicationModel:
+      description: Base communication model with Java Backend
+      required:
+        - content
+        - model
+      type: object
+      properties:
+        content:
+          description: URL for YouTube video
+          pattern: \S
+          type: string
+          example: https://www.youtube.com/watch?v=U43zZ5RsXGA
+        time:
+          description: Optional. Time range for the YouTube video
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/TimeModel'
+        annotationLength:
+          format: int32
+          description: Optional. Limit in characters for introduction before the article
+          minimum: 0
+          exclusiveMinimum: true
+          type: integer
+          example: 400
+        articleLength:
+          format: int32
+          description: Optional. Limit in characters for the article itself
+          minimum: 0
+          exclusiveMinimum: true
+          type: integer
+          example: 6000
+        allImages:
+          description: Marks if all images for each timecode must be shown
+          default: false
+          type: boolean
+          example: false
+        additionalScreenshots:
+          description: Additional Screenshots with seconds separated by comma
+          type: string
+          example: "12, 32, 45"
+        model:
+          description: Selected model
+          type: string
+          example: gpt-3.5-turbo-16k-0613
+    TimeModel:
+      type: object
+      properties:
+        start_seconds:
+          format: int32
+          description: The start time in seconds
+          minimum: 0
+          exclusiveMinimum: true
+          type: integer
+          example: 34
+        end_seconds:
+          format: int32
+          description: The end time in seconds
+          minimum: 0
+          exclusiveMinimum: true
+          type: integer
+          example: 72
+  securitySchemes:
+    SecurityScheme:
+      type: http
+      description: Authentication
+      scheme: basic
